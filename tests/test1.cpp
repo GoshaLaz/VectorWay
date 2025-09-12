@@ -5,47 +5,34 @@ using namespace std;
 using crtMatrix = std::vector<std::vector<std::vector<int>>>;
 
 
-vector<int> value;
-int indexValue = 0;
-int myFunction(int z, int y, int x) {
-    indexValue++;
-    return value[indexValue-1];
+int myFunction(int x, int y, int z) {
+     return x + y + z;
 }
 
-int myFunction2(int z, int y, int x, int g) {
-    return g*g;
+int myFunction2(int x, int y, int z, int g) {
+
+    return g * g;
 }
 
+int myFunction3(int x, int y) {
 
-int myFunction3(int y, int x) {
-
-    return x+y;
+    return 5;
 }
 
 
 int main() {
-    int a, b, c, d;
-    cin >> a >> b >> c >> d;
-
-    for (int i = 0; i < b * c * a; i++) {
-        int number;
-        cin >> number;
-        value.push_back(number);
-    }
-
-
-
-
+    int a, b, c;
+    cin >> a >> b >> c;
 
     crtMatrix myMatrix = createMatrix(a, b, c, myFunction);
     printMatrix(myMatrix);
 
-    myMatrix = rebuildMatrix(d, a-1, b, c, myMatrix, myFunction2);
+    myMatrix = rebuildMatrix(0, 0, b, c, 0, 0, myMatrix, myFunction2);
     printMatrix(myMatrix);
 
-    myMatrix = createLayerMatrix(5, 5, myMatrix, myFunction3);
+    myMatrix = createLayerMatrix(b, c, myMatrix, myFunction3);
     printMatrix(myMatrix);
 
-    myMatrix = deleteMatrix(0, 0, a, b, myMatrix);
+    myMatrix = deleteMatrix(0, 0, b-1, c-1, 0, 0, myMatrix);
     printMatrix(myMatrix);
 }

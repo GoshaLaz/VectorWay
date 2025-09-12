@@ -29,10 +29,10 @@ crtMatrix createMatrix(int z, int y, int x, int (*matrixF)(int, int, int)) {
 
 
 
-crtMatrix rebuildMatrix(int l, int r, int y, int x, crtMatrix matrix, int (*matrixF)(int, int, int, int)) {
+crtMatrix rebuildMatrix(int l, int r, int y, int x, int x2, int y2, crtMatrix matrix, int (*matrixF)(int, int, int, int)) {
     for (int h = l; h <= r; h++) {
-        for (int i = 0; i < y; i++) {
-            for (int j = 0; j < x; j++) {
+        for (int i = y2; i < y; i++) {
+            for (int j = x2; j < x; j++) {
                 matrix[l][i][j] = matrixF(l, i, j, matrix[l][i][j]);
             }
         }
@@ -59,14 +59,13 @@ crtMatrix createLayerMatrix(int x, int y, crtMatrix matrix, int (*matrixF)(int, 
 
 
 
-crtMatrix deleteMatrix(int l, int r, int y, int x, crtMatrix matrix) {
+crtMatrix deleteMatrix(int l, int r, int x, int y, int x2, int y2, crtMatrix matrix) {
     for (int h = l; h <= r; h++) {
-        for (int i = 0; i < y; i++) {
-            for (int j = 0; j < x; j++) {
-                matrix[0][0].erase(matrix[0][0].begin() + j);
-            }
+        for (int i = y2; i < y; i++) {
+            matrix[h][i].erase(matrix[h][i].begin() + x2, matrix[h][i].begin() + x + 1);
         }
     }
+
 
 
     return matrix;
@@ -84,7 +83,8 @@ void printMatrix(crtMatrix matrix) {
             std::cout << "\n";
         }
         std::cout << "\n";
-        std::cout << "\n";
-        std::cout << "\n";
     }
+    std::cout << "\n";
+    std::cout << "\n";
+    std::cout << "\n";
 }
