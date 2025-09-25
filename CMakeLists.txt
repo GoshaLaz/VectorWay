@@ -24,6 +24,8 @@ set_target_properties(VectorWay PROPERTIES
 
 
 
-add_executable(test1_target tests/test1.cpp)
+add_executable(test1_target tests/test1.cpp
+        examples/example1.cpp
+        include/vectorway/library.h)
 target_link_libraries(test1_target PRIVATE VectorWay)
 target_include_directories(test1_target PRIVATE ${PROJECT_SOURCE_DIR}/include)
