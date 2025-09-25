@@ -35,8 +35,4 @@ int main() {
 
     myMatrix = deleteMatrix(0, 0, b-1, c-1, 0, 0, myMatrix);
     printMatrix(myMatrix);
-
-
-
-    cout << "test" << endl;
 }
