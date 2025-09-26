@@ -1,9 +1,11 @@
 #include "vectorway/library.h"
 #include <iostream>
+#include <stack>
 #include <vector>
 
 
 using crtMatrix = std::vector<std::vector<std::vector<int>>>;
+using matrix2D = std::vector<std::vector<int>>;
 
 
 
@@ -72,8 +74,6 @@ crtMatrix deleteMatrix(int l, int r, int x, int y, int x2, int y2, crtMatrix mat
 }
 
 
-
-
 void printMatrix(crtMatrix matrix) {
     for (int l = 0; l < matrix.size(); l++) {
         for (int i = 0; i < matrix[l].size(); i++) {
@@ -87,4 +87,52 @@ void printMatrix(crtMatrix matrix) {
     std::cout << "\n";
     std::cout << "\n";
     std::cout << "\n";
+}
+
+
+
+std::vector<std::pair<int, int>> dfs(int startX, int startY, const matrix2D& grid) {
+    int n = int(grid.size());
+    int m = int(grid[0].size());
+
+    std::vector<std::vector<bool>> visited(n, std::vector<bool>(m, false));
+    std::stack<std::pair<int, int>> st;
+
+    std::vector<std::pair<int, int>> result;
+
+
+    if (grid[startX][startY] == 1) {
+        st.emplace(startX, startY);
+    }
+
+
+    int dx[] = {-1, 1, 0, 0};
+    int dy[] = {0, 0, -1, 1};
+
+    while (!st.empty()) {
+        auto [x, y] = st.top();
+        st.pop();
+
+        if (visited[x][y]) {
+            continue;
+        }
+
+
+        visited[x][y] = true;
+        result.emplace_back(x, y);
+
+
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if (nx >= 0 && nx < n && ny >= 0 && ny < m) {
+                if (grid[nx][ny] == 1 && !visited[nx][ny]) {
+                    st.emplace(nx, ny);
+                }
+            }
+        }
+    }
+
+
+    return result;
 }

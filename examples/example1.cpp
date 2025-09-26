@@ -5,34 +5,37 @@ using namespace std;
 using crtMatrix = std::vector<std::vector<std::vector<int>>>;
 
 
+int n, m;
+
 int myFunction(int x, int y, int z) {
-    return x + y + z;
-}
-
-int myFunction2(int x, int y, int z, int g) {
-
-    return g * g;
-}
-
-int myFunction3(int x, int y) {
-
-    return 5;
+    return 1;
 }
 
 
 int main() {
-    int a, b, c;
-    cin >> a >> b >> c;
+    cin >> n >> m;
+    int startX, startY;
+    cin >> startX >> startY;
 
-    crtMatrix myMatrix = createMatrix(a, b, c, myFunction);
-    printMatrix(myMatrix);
+    vector<vector<int>> matrix;
 
-    myMatrix = rebuildMatrix(0, 0, b, c, 0, 0, myMatrix, myFunction2);
-    printMatrix(myMatrix);
 
-    myMatrix = createLayerMatrix(b, c, myMatrix, myFunction3);
-    printMatrix(myMatrix);
+    for (int i = 0; i < n; i++) {
+        vector<int> row;
+        for (int j = 0; j < m; j++) {
+            int a;
+            cin >> a;
+            row.push_back(a);
+        }
+        matrix.push_back(row);
+    }
 
-    myMatrix = deleteMatrix(0, 0, b-1, c-1, 0, 0, myMatrix);
-    printMatrix(myMatrix);
+
+    vector<pair<int, int>> p = dfs(startX, startY, matrix);
+
+
+
+    for (pair<int, int> p2 : p) {
+        cout << p2.first << " " << p2.second << "   ";
+    }
 }
