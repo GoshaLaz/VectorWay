@@ -1,5 +1,6 @@
 #include "vectorway/library.h"
 #include <iostream>
+#include <queue>
 #include <stack>
 #include <vector>
 
@@ -128,6 +129,54 @@ std::vector<std::pair<int, int>> dfs(int startX, int startY, const matrix2D& gri
             if (nx >= 0 && nx < n && ny >= 0 && ny < m) {
                 if (grid[nx][ny] == 1 && !visited[nx][ny]) {
                     st.emplace(nx, ny);
+                }
+            }
+        }
+    }
+
+
+    return result;
+}
+
+
+
+std::vector<std::pair<int, int>> bfs(int startX, int startY, const matrix2D& grid) {
+    int n = int(grid.size());
+    int m = int(grid[0].size());
+
+    std::vector<std::vector<bool>> visited(n, std::vector<bool>(m, false));
+    std::queue<std::pair<int, int>> q;
+
+    std::vector<std::pair<int, int>> result;
+
+
+    if (grid[startX][startY] == 1) {
+        q.emplace(startX, startY);
+    }
+
+
+    int dx[] = {-1, 1, 0, 0};
+    int dy[] = {0, 0, -1, 1};
+
+    while (!q.empty()) {
+        auto [x, y] = q.front();
+        q.pop();
+
+        if (visited[x][y]) {
+            continue;
+        }
+
+
+        visited[x][y] = true;
+        result.emplace_back(x, y);
+
+
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if (nx >= 0 && nx < n && ny >= 0 && ny < m) {
+                if (grid[nx][ny] == 1 && !visited[nx][ny]) {
+                    q.emplace(nx, ny);
                 }
             }
         }

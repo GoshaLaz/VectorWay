@@ -17,23 +17,22 @@ int main() {
     int startX, startY;
     cin >> startX >> startY;
 
-    vector<vector<int>> matrix;
+
+    crtMatrix matrix = createMatrix(1, m, n, myFunction);
+
+    printMatrix(matrix);
+
+    vector<pair<int, int>> p = dfs(startX, startY, matrix[0]);
 
 
-    for (int i = 0; i < n; i++) {
-        vector<int> row;
-        for (int j = 0; j < m; j++) {
-            int a;
-            cin >> a;
-            row.push_back(a);
-        }
-        matrix.push_back(row);
+
+    for (pair<int, int> p2 : p) {
+        cout << p2.first << " " << p2.second << "   ";
     }
 
+    cout << "\n";
 
-    vector<pair<int, int>> p = dfs(startX, startY, matrix);
-
-
+    p = bfs(startX, startY, matrix[0]);
 
     for (pair<int, int> p2 : p) {
         cout << p2.first << " " << p2.second << "   ";
