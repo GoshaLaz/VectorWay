@@ -2,7 +2,6 @@
 #define VECTORWAY_LIBRARY_H
 
 #include <vector>
-
 std::vector<std::vector<std::vector<int>>> createMatrix(int z, int y, int x, int (*matrixF)(int, int, int));
 std::vector<std::vector<std::vector<int>>> rebuildMatrix(int l, int r, int y, int x, int x2, int y2,
     std::vector<std::vector<std::vector<int>>> matrix, int (*matrixF)(int, int, int, int));

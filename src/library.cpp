@@ -3,19 +3,19 @@
 #include <queue>
 #include <stack>
 #include <vector>
-
-
+#include "vectorway/external/jsonH.hpp"
+#include "curl/curl.h"
 using crtMatrix = std::vector<std::vector<std::vector<int>>>;
 using matrix2D = std::vector<std::vector<int>>;
+
 
 
 
 crtMatrix createMatrix(int z, int y, int x, int (*matrixF)(int, int, int)) {
     crtMatrix mainMatrix;
 
-
     for (int l = 0; l < z; l++) {
-        std::vector<std::vector<int>> tempMatrix;
+        matrix2D tempMatrix;
         for (int i = 0; i < y; i++) {
             std::vector<int> tempVector;
             for (int j = 0; j < x; j++) {
@@ -46,7 +46,7 @@ crtMatrix rebuildMatrix(int l, int r, int y, int x, int x2, int y2, crtMatrix ma
 
 
 crtMatrix createLayerMatrix(int x, int y, crtMatrix matrix, int (*matrixF)(int, int)) {
-    std::vector<std::vector<int>> layerMatrix;
+     matrix2D layerMatrix;
 
     for (int i = 0; i < y; i++) {
         std::vector<int> tempMatrix;
