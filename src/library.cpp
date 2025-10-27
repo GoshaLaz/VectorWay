@@ -3,11 +3,8 @@
 #include <queue>
 #include <stack>
 #include <vector>
-#include "vectorway/external/jsonH.hpp"
-#include "curl/curl.h"
 using crtMatrix = std::vector<std::vector<std::vector<int>>>;
 using matrix2D = std::vector<std::vector<int>>;
-
 
 
 
@@ -185,3 +182,5 @@ std::vector<std::pair<int, int>> bfs(int startX, int startY, const matrix2D& gri
 
     return result;
 }
+
+

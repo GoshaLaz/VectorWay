@@ -1,41 +1,37 @@
+#include "vectorway/open_street_maps.h"
 #include "vectorway/library.h"
 #include <bits/stdc++.h>
+
+
 using namespace std;
-using crtMatrix = std::vector<std::vector<std::vector<int>>>;
-
-
-int n, m;
-
-int myFunction(int x, int y, int z) {
-    int a;
-    cin >> a;
-    return a;
-}
-
 
 int main() {
-    cin >> n >> m;
-    int startX, startY;
-    cin >> startX >> startY;
+    double south = 50.4420;
+    double west  = 30.5190;
+    double north = 50.4480;
+    double east  = 30.5300;
 
 
-    crtMatrix matrix = createMatrix(1, m, n, myFunction);
-    printMatrix(matrix);
+    auto matrix = roadsToMatrix(getRoadsFromOSM(south, west, north, east), 3, 3);
 
+    vector<pair<int, int>> result;
 
+    result = bfs(0, 0, matrix);
+    cout << matrix[0][0] << "\n";
 
-
-    vector<pair<int, int>> p = dfs(startX, startY, matrix[0]);
-
-    for (pair<int, int> p2 : p) {
-        cout << p2.first << " " << p2.second << "   ";
+    for (int i = 0; i < matrix.size(); ++i) {
+        for (int j = 0; j < matrix[i].size(); ++j) {
+            cout << matrix[i][j] << " ";
+        }
+        cout << "\n";
     }
 
     cout << "\n";
 
-    p = bfs(startX, startY, matrix[0]);
-
-    for (pair<int, int> p2 : p) {
-        cout << p2.first << " " << p2.second << "   ";
+    for (auto p : result) {
+        cout << p.first << " " << p.second << "\n";
     }
+
+
+    return 0;
 }

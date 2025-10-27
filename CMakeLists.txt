@@ -20,6 +20,9 @@ find_package(nlohmann_json CONFIG REQUIRED)
 
 add_library(VectorWay STATIC
         src/library.cpp
+        src/google_maps.cpp
+        src/open_street_maps.cpp
+        include/vectorway/open_street_maps.h
 )
 
 
@@ -41,6 +44,8 @@ add_executable(test1_target
         include/vectorway/library.h
         examples/example2.cpp
         include/vectorway/external/jsonH.hpp
+        include/vectorway/google_maps.h
+        include/vectorway/open_street_maps.h
 )
 
 
