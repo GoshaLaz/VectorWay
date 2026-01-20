@@ -29,7 +29,7 @@ std::vector<OSMRoad> getRoadsFromOSM(double south, double west, double north, do
 
     std::string postData = "data=" + query.str();
 
-    std::string url = "https://overpass.kumi.systems/api/interpreter";
+    std::string url = "https://overpass-api.de/api/interpreter";
     std::string response;
 
     struct curl_slist* headers = nullptr;
