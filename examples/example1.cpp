@@ -67,17 +67,22 @@ int main() {
 
     auto [dist, parent] = dijkstra_to(g, s, t);
     auto path = restore_path(s, t, parent);
+    int cnt2 = 0;
     for (int v : path) {
         cout << "(" << v / m << "," << v % m << ") ";
+        if (cnt2 % 3 == 0) {
+            cout << "\n";
+        }
+        cnt2++;
     }
     cout << "\n";
     cout << "Distance = " << dist[t] << "\n";
-    cout << "BFS result:\n";
-    auto bfsResult = bfs(startX, startY, matrix);
+    cout << "DFS result:\n";
+    auto bfsResult = dfs(startX, startY, matrix);
     int cnt = 0;
     for (auto [x, y] : bfsResult) {
         cout << "(" << x << "," << y << ") ";
-        if (cnt % 2 > 0) {
+        if (cnt % 3 == 0) {
             cout << "\n";
         }
         cnt++;
