@@ -16,6 +16,7 @@ std::vector<std::pair<int, int>> bfs(int startX, int startY, const std::vector<s
 std::vector<long long> dijkstra(const Graph& g, int s);
 std::pair<std::vector<long long>, std::vector<int>> dijkstra_to(const Graph& g, int s, int t);
 std::vector<int> restore_path(int s, int t, const std::vector<int>& parent);
+Graph matrixToGraph(const std::vector<std::vector<int>>& grid);
 
 
 #endif // VECTORWAY_LIBRARY_H
