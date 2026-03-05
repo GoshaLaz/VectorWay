@@ -4,6 +4,7 @@
 #include <iostream>
 
 using json = nlohmann::json;
+using namespace std;
 
 static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
     ((std::string*)userp)->append((char*)contents, size * nmemb);
@@ -30,6 +31,7 @@ std::vector<OSMRoad> getRoadsFromOSM(double south, double west, double north, do
     std::string postData = "data=" + query.str();
 
     std::string url = "https://overpass-api.de/api/interpreter";
+    //std::string url = "https://lz4.overpass-api.de/api/interpreter";
     std::string response;
 
     struct curl_slist* headers = nullptr;
@@ -111,10 +113,10 @@ std::vector<std::vector<int>> roadsToMatrix( const std::vector<OSMRoad>& roads, 
 
     for (const auto& road : roads) {
         for (const auto& [lat, lon] : road.coordinates) {
-            minLat = std::min(minLat, lat);
-            maxLat = std::max(maxLat, lat);
-            minLon = std::min(minLon, lon);
-            maxLon = std::max(maxLon, lon);
+            minLat = min(minLat, lat);
+            maxLat = max(maxLat, lat);
+            minLon = min(minLon, lon);
+            maxLon = max(maxLon, lon);
         }
     }
 
@@ -139,7 +141,7 @@ std::vector<std::vector<int>> roadsToMatrix( const std::vector<OSMRoad>& roads, 
             int y = latToY(lat);
             int x = lonToX(lon);
             if (y >= 0 && y < gridHeight && x >= 0 && x < gridWidth) {
-                grid[y][x] = 1;
+                grid[x][y] = 1;
             }
         }
     }

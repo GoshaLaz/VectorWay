@@ -157,7 +157,10 @@ std::vector<std::pair<int, int>> dfs(int startX, int startY, const matrix2D& gri
 
 
         visited[x][y] = true;
-        result.emplace_back(x, y);
+
+        if (grid[x][y] == 1) {
+            result.emplace_back(x, y);
+        }
 
 
         for (int i = 0; i < 4; i++) {
