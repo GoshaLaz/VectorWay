@@ -17,6 +17,8 @@ std::vector<long long> dijkstra(const Graph& g, int s);
 std::pair<std::vector<long long>, std::vector<int>> dijkstra_to(const Graph& g, int s, int t);
 std::vector<int> restore_path(int s, int t, const std::vector<int>& parent);
 Graph matrixToGraph(const std::vector<std::vector<int>>& grid);
+std::vector<std::vector<int>> adjacencyMatrix(std::vector<std::vector<int>>& matrix);
+std::vector<std::vector<int>> adjacencyList(std::vector<std::vector<int>>& matrix);
 
 
 #endif // VECTORWAY_LIBRARY_H

@@ -30,8 +30,8 @@ std::vector<OSMRoad> getRoadsFromOSM(double south, double west, double north, do
 
     std::string postData = "data=" + query.str();
 
-    std::string url = "https://overpass-api.de/api/interpreter";
-    //std::string url = "https://lz4.overpass-api.de/api/interpreter";
+    //std::string url = "https://overpass-api.de/api/interpreter";
+    std::string url = "https://lz4.overpass-api.de/api/interpreter";
     std::string response;
 
     struct curl_slist* headers = nullptr;
@@ -141,7 +141,7 @@ std::vector<std::vector<int>> roadsToMatrix( const std::vector<OSMRoad>& roads, 
             int y = latToY(lat);
             int x = lonToX(lon);
             if (y >= 0 && y < gridHeight && x >= 0 && x < gridWidth) {
-                grid[x][y] = 1;
+                grid[y][x] = 1;
             }
         }
     }

@@ -74,8 +74,6 @@ crtMatrix deleteMatrix(int l, int r, int x, int y, int x2, int y2, crtMatrix mat
         }
     }
 
-
-
     return matrix;
 }
 
@@ -94,6 +92,70 @@ void printMatrix(crtMatrix matrix) {
     std::cout << "\n";
     std::cout << "\n";
 }
+
+const int INFdist = 1e9 + 7;
+matrix2D adjacencyMatrix(matrix2D& matrix) {
+    int n = matrix.size();
+    int m = matrix[0].size();
+    matrix2D result(n, std::vector<int>(n));
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (i == j) result[i][j] = 0;
+            else if (matrix[i][j] > 0) result[i][j] = 1;
+            else result[i][j] = INFdist;
+        }
+    }
+
+    return result;
+}
+
+matrix2D adjacencyList(matrix2D& matrix) {
+    int n = matrix.size();
+    int m = matrix[0].size();
+    matrix2D result;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            if (matrix[i][j] == 1) {
+                if (i < n - 1 && matrix[i + 1][j] == 1) {
+                    std::vector<int> tempVector;
+                    tempVector.push_back(i);
+                    tempVector.push_back(j);
+                    tempVector.push_back(i + 1);
+                    tempVector.push_back(j);
+                    result.push_back(tempVector);
+                }
+                if (i > 0 && matrix[i - 1][j] == 1) {
+                    std::vector<int> tempVector;
+                    tempVector.push_back(i);
+                    tempVector.push_back(j);
+                    tempVector.push_back(i - 1);
+                    tempVector.push_back(j);
+                    result.push_back(tempVector);
+                }
+                if (j < m - 1 && matrix[i][j + 1] == 1 ) {
+                    std::vector<int> tempVector;
+                    tempVector.push_back(i);
+                    tempVector.push_back(j);
+                    tempVector.push_back(i);
+                    tempVector.push_back(j + 1);
+                    result.push_back(tempVector);
+                }
+                if (j > 0 && matrix[i][j - 1] == 1) {
+                    std::vector<int> tempVector;
+                    tempVector.push_back(i);
+                    tempVector.push_back(j);
+                    tempVector.push_back(i);
+                    tempVector.push_back(j - 1);
+                    result.push_back(tempVector);
+                }
+            }
+        }
+    }
+
+    return result;
+}
+
+
 
 using Graph = std::vector<std::vector<std::pair<int, int>>>;
 Graph matrixToGraph(const std::vector<std::vector<int>>& grid) {
