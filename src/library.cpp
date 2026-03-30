@@ -163,7 +163,7 @@ Graph matrixToGraph(const std::vector<std::vector<int>>& grid) {
     int m = grid[0].size();
 
     auto id = [&](int x, int y) {
-        return x * m + y;
+        return y * m + x; 
     };
 
     Graph g(n * m);
@@ -171,21 +171,23 @@ Graph matrixToGraph(const std::vector<std::vector<int>>& grid) {
     int dx[] = {-1, 1, 0, 0};
     int dy[] = {0, 0, -1, 1};
 
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            if (grid[i][j] == 0) continue;
+    for (int y = 0; y < n; y++) {
+        for (int x = 0; x < m; x++) {
+            if (grid[y][x] == 0) continue;
 
             for (int k = 0; k < 4; k++) {
-                int ni = i + dx[k];
-                int nj = j + dy[k];
-                if (ni >= 0 && ni < n && nj >= 0 && nj < m) {
-                    if (grid[ni][nj] == 1) {
-                        g[id(i, j)].push_back({id(ni, nj), 1});
+                int nx = x + dx[k];
+                int ny = y + dy[k];
+
+                if (nx >= 0 && nx < m &&
+                    ny >= 0 && ny < n &&
+                    grid[ny][nx] == 1) {
+                    g[id(x, y)].push_back({id(nx, ny), 1});
                     }
-                }
             }
         }
     }
+
     return g;
 }
 
@@ -195,16 +197,16 @@ std::vector<std::pair<int, int>> dfs(int startX, int startY, const matrix2D& gri
     int n = int(grid.size());
     int m = int(grid[0].size());
 
-    std::vector<std::vector<bool>> visited(n, std::vector<bool>(m, false));
-    std::stack<std::pair<int, int>> st;
+    std::vector<std::vector<bool>> visited(n,std::vector<bool>(m, false));
 
+    std::stack<std::pair<int, int>> st;
     std::vector<std::pair<int, int>> result;
 
-
-    if (grid[startX][startY] == 1) {
+    if (startX >= 0 && startX < m &&
+        startY >= 0 && startY < n &&
+        grid[startY][startX] == 1) {
         st.emplace(startX, startY);
-    }
-
+        }
 
     int dx[] = {-1, 1, 0, 0};
     int dy[] = {0, 0, -1, 1};
@@ -213,29 +215,28 @@ std::vector<std::pair<int, int>> dfs(int startX, int startY, const matrix2D& gri
         auto [x, y] = st.top();
         st.pop();
 
-        if (visited[x][y]) {
+        if (visited[y][x]) {
             continue;
         }
 
+        visited[y][x] = true;
 
-        visited[x][y] = true;
-
-        if (grid[x][y] == 1) {
+        if (grid[y][x] == 1) {
             result.emplace_back(x, y);
         }
-
 
         for (int i = 0; i < 4; i++) {
             int nx = x + dx[i];
             int ny = y + dy[i];
-            if (nx >= 0 && nx < n && ny >= 0 && ny < m) {
-                if (grid[nx][ny] == 1 && !visited[nx][ny]) {
-                    st.emplace(nx, ny);
+
+            if (nx >= 0 && nx < m &&
+                ny >= 0 && ny < n &&
+                grid[ny][nx] == 1 &&
+                !visited[ny][nx]) {
+                st.emplace(nx, ny);
                 }
-            }
         }
     }
-
 
     return result;
 }
@@ -247,15 +248,15 @@ std::vector<std::pair<int, int>> bfs(int startX, int startY, const matrix2D& gri
     int m = int(grid[0].size());
 
     std::vector<std::vector<bool>> visited(n, std::vector<bool>(m, false));
-    std::queue<std::pair<int, int>> q;
 
+    std::queue<std::pair<int, int>> q;
     std::vector<std::pair<int, int>> result;
 
-
-    if (grid[startX][startY] == 1) {
+    if (startX >= 0 && startX < m &&
+        startY >= 0 && startY < n &&
+        grid[startY][startX] == 1) {
         q.emplace(startX, startY);
-    }
-
+        }
 
     int dx[] = {-1, 1, 0, 0};
     int dy[] = {0, 0, -1, 1};
@@ -264,29 +265,29 @@ std::vector<std::pair<int, int>> bfs(int startX, int startY, const matrix2D& gri
         auto [x, y] = q.front();
         q.pop();
 
-        if (visited[x][y]) {
+        if (visited[y][x]) {
             continue;
         }
 
-
-        visited[x][y] = true;
+        visited[y][x] = true;
         result.emplace_back(x, y);
-
 
         for (int i = 0; i < 4; i++) {
             int nx = x + dx[i];
             int ny = y + dy[i];
-            if (nx >= 0 && nx < n && ny >= 0 && ny < m) {
-                if (grid[nx][ny] == 1 && !visited[nx][ny]) {
-                    q.emplace(nx, ny);
+
+            if (nx >= 0 && nx < m &&
+                ny >= 0 && ny < n &&
+                grid[ny][nx] == 1 &&
+                !visited[ny][nx]) {
+                q.emplace(nx, ny);
                 }
-            }
         }
     }
 
-
     return result;
 }
+
 
 
 

@@ -126,18 +126,18 @@ int main() {
             }
 
             if (cnt == 1 && waitStart) {
-                int y = dfsResult[0].first;
-                int x = dfsResult[0].second;
+                int x = dfsResult[0].first;
+                int y = dfsResult[0].second;
                 squares[y][x].setFillColor(dfsSquare);
             }
 
             if (clock.getElapsedTime().asSeconds() >= 1.f && cnt < dfsResult.size() && waitStart) {
-                int y = dfsResult[cnt - 1].first;
-                int x = dfsResult[cnt - 1].second;
-                squares[y][x].setFillColor(Color(115, 251, 253));
+                int px = dfsResult[cnt - 1].first;
+                int py = dfsResult[cnt - 1].second;
+                squares[py][px].setFillColor(Color(115, 251, 253));
 
-                y = dfsResult[cnt].first;
-                x = dfsResult[cnt].second;
+                int x = dfsResult[cnt].first;
+                int y = dfsResult[cnt].second;
                 squares[y][x].setFillColor(dfsSquare);
 
                 cnt++;
@@ -162,18 +162,18 @@ int main() {
             }
 
             if (cnt2 == 1 && waitStart2) {
-                int y = path[0] / m;
                 int x = path[0] % m;
+                int y = path[0] / m;
                 squares2[y][x].setFillColor(dijkSquare);
             }
 
             if (clock2.getElapsedTime().asSeconds() >= 1.f && cnt2 < path.size() && waitStart2) {
-                int y = path[cnt2 - 1] / m;
-                int x = path[cnt2 - 1] % m;
-                squares2[y][x].setFillColor(Color(115, 251, 253));
+                int px = path[cnt2 - 1] % m;
+                int py = path[cnt2 - 1] / m;
+                squares2[py][px].setFillColor(Color(115, 251, 253));
 
-                y = path[cnt2] / m;
-                x = path[cnt2] % m;
+                int x = path[cnt2] % m;
+                int y = path[cnt2] / m;
                 squares2[y][x].setFillColor(dijkSquare);
 
                 cnt2++;
