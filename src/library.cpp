@@ -21,12 +21,13 @@ crtMatrix createMatrix(int z, int y, int x, int (*matrixF)(int, int, int)) {
 
     for (int l = 0; l < z; l++) {
         matrix2D tempMatrix;
+        std::vector<int> tempVector;
         for (int i = 0; i < y; i++) {
-            std::vector<int> tempVector;
             for (int j = 0; j < x; j++) {
                 tempVector.push_back(matrixF(l, i, j));
             }
             tempMatrix.push_back(tempVector);
+            tempVector.clear();
         }
         mainMatrix.push_back(tempMatrix);
     }
@@ -52,13 +53,14 @@ crtMatrix rebuildMatrix(int l, int r, int y, int x, int x2, int y2, crtMatrix ma
 
 crtMatrix createLayerMatrix(int x, int y, crtMatrix matrix, int (*matrixF)(int, int)) {
      matrix2D layerMatrix;
+     std::vector<int> tempMatrix;
 
     for (int i = 0; i < y; i++) {
-        std::vector<int> tempMatrix;
         for (int j = 0; j < x; j++) {
             tempMatrix.push_back(matrixF(i, j));
         }
         layerMatrix.push_back(tempMatrix);
+        tempMatrix.clear();
     }
 
     matrix.push_back(layerMatrix);
@@ -95,8 +97,8 @@ void printMatrix(crtMatrix matrix) {
 
 const int INFdist = 1e9 + 7;
 matrix2D adjacencyMatrix(matrix2D matrix) {
-    int n = matrix.size();
-    int m = matrix[0].size();
+    int n = static_cast<int>(matrix.size());
+    int m = static_cast<int>(matrix[0].size());
     matrix2D result(n, std::vector<int>(n));
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
@@ -109,8 +111,8 @@ matrix2D adjacencyMatrix(matrix2D matrix) {
 }
 
 matrix2D adjacencyList(matrix2D matrix) {
-    int n = matrix.size();
-    int m = matrix[0].size();
+    int n = static_cast<int>(matrix.size());
+    int m = static_cast<int>(matrix[0].size());
     matrix2D result;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
@@ -158,8 +160,8 @@ matrix2D adjacencyList(matrix2D matrix) {
 
 using Graph = std::vector<std::vector<std::pair<int, int>>>;
 Graph matrixToGraph(const std::vector<std::vector<int>>& grid) {
-    int n = grid.size();
-    int m = grid[0].size();
+    int n = static_cast<int>(grid.size());
+    int m = static_cast<int>(grid[0].size());
 
     auto id = [&](int x, int y) {
         return y * m + x; 
@@ -181,7 +183,7 @@ Graph matrixToGraph(const std::vector<std::vector<int>>& grid) {
                 if (nx >= 0 && nx < m &&
                     ny >= 0 && ny < n &&
                     grid[ny][nx] == 1) {
-                    g[id(x, y)].push_back({id(nx, ny), 1});
+                    g[id(x, y)].emplace_back(id(nx, ny), 1);
                     }
             }
         }
@@ -299,8 +301,8 @@ std::vector<long long> dijkstra(const Graph& g, int s) {
     dist[s] = 0;
 
     using Node = std::pair<long long,int>;
-    std::priority_queue<Node, std::vector<Node>, std::greater<Node>> pq;
-    pq.push({0, s});
+    std::priority_queue<Node, std::vector<Node>, std::greater<>> pq;
+    pq.emplace(0, s);
 
     while (!pq.empty()) {
         auto [d, v] = pq.top(); pq.pop();
@@ -317,7 +319,7 @@ std::vector<long long> dijkstra(const Graph& g, int s) {
             long long nd = d + (long long)w;
             if (nd < dist[to]) {
                 dist[to] = nd;
-                pq.push({nd, to});
+                pq.emplace(nd, to);
             }
         }
     }
@@ -335,8 +337,8 @@ dijkstra_to(const Graph& g, int s, int t) {
     dist[s] = 0;
 
     using Node = std::pair<long long,int>;
-    std::priority_queue<Node, std::vector<Node>, std::greater<Node>> pq;
-    pq.push({0, s});
+    std::priority_queue<Node, std::vector<Node>, std::greater<>> pq;
+    pq.emplace(0, s);
 
     while (!pq.empty()) {
         auto [d, v] = pq.top(); pq.pop();
@@ -354,7 +356,7 @@ dijkstra_to(const Graph& g, int s, int t) {
             if (nd < dist[to]) {
                 dist[to] = nd;
                 parent[to] = v;
-                pq.push({nd, to});
+                pq.emplace(nd, to);
             }
         }
     }
@@ -380,7 +382,7 @@ std::vector<int> restore_path(int s, int t, const std::vector<int>& parent) {
 std::vector<std::vector<int>> floyd_warshall(matrix2D matrix) {
     std::vector<std::vector<int>> result;
 
-    int n = matrix.size();
+    int n = static_cast<int>(matrix.size());
     for (int k = 0; k < matrix.size(); k++) {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
