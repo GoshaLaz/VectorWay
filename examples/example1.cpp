@@ -42,6 +42,7 @@ int main() {
     auto path = restore_path(id(startX2, startY2), id(endX, endY), parent);
     auto listP = adjacencyList(matrix);
 
+
     cout << "Matrix:\n";
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
@@ -50,6 +51,9 @@ int main() {
         cout << "\n";
     }
 
+
+    auto fRes = floyd_warshall(adjacencyMatrix(matrix));
+
     cout << "Adjacency list:\n";
     for (int i = 0; i < listP.size(); i++) {
         for (int j = 0; j < listP[i].size(); j++) {
@@ -57,6 +61,8 @@ int main() {
         }
         cout << "\n";
     }
+
+    for (auto c : fRes) cout << c[0] << " " << c[1] << ":  " << c[2] << "\n";
 
     unsigned int n2 = n * 100 + 4;
     unsigned int m2 = m * 100 + 4;

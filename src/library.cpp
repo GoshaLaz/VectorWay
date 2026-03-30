@@ -94,22 +94,21 @@ void printMatrix(crtMatrix matrix) {
 }
 
 const int INFdist = 1e9 + 7;
-matrix2D adjacencyMatrix(matrix2D& matrix) {
+matrix2D adjacencyMatrix(matrix2D matrix) {
     int n = matrix.size();
     int m = matrix[0].size();
     matrix2D result(n, std::vector<int>(n));
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
-            if (i == j) result[i][j] = 0;
-            else if (matrix[i][j] > 0) result[i][j] = 1;
-            else result[i][j] = INFdist;
+            if (i == j || matrix[i][j] == 0) result[i][j] = INFdist;
+            else result[i][j] = 1;
         }
     }
 
     return result;
 }
 
-matrix2D adjacencyList(matrix2D& matrix) {
+matrix2D adjacencyList(matrix2D matrix) {
     int n = matrix.size();
     int m = matrix[0].size();
     matrix2D result;
@@ -132,7 +131,7 @@ matrix2D adjacencyList(matrix2D& matrix) {
                     tempVector.push_back(j);
                     result.push_back(tempVector);
                 }
-                if (j < m - 1 && matrix[i][j + 1] == 1 ) {
+                if (j < m - 1 && matrix[i][j + 1] == 1) {
                     std::vector<int> tempVector;
                     tempVector.push_back(i);
                     tempVector.push_back(j);
@@ -373,4 +372,36 @@ std::vector<int> restore_path(int s, int t, const std::vector<int>& parent) {
     }
     std::reverse(path.begin(), path.end());
     return path;
+}
+
+
+
+
+std::vector<std::vector<int>> floyd_warshall(matrix2D matrix) {
+    std::vector<std::vector<int>> result;
+
+    int n = matrix.size();
+    for (int k = 0; k < matrix.size(); k++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][k] < INFdist && matrix[k][j] < INFdist) {
+                    matrix[i][j] = std::min(matrix[i][j], matrix[i][k] + matrix[k][j]);
+                }
+            }
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (matrix[i][j] < INFdist) {
+                std::vector<int> temp;
+                temp.push_back(i);
+                temp.push_back(j);
+                temp.push_back(matrix[i][j]);
+                result.push_back(temp);
+            }
+        }
+    }
+
+    return result;
 }
